@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tea.admin.server.content.dao.persist.mapper.ArticleDetailMapper">
+    <select id="getStandardByArticleId" resultMap="StandardResultMap">
+        SELECT id, article_id, detail
+        FROM content_article_detail
+        WHERE id = #{id}
+    </select>
+    
+    <resultMap id="StandardResultMap" type="com.example.tea.admin.server.content.pojo.vo.ArticleDetailStandardVO">
+        <id column="id" property="id"/>
+        <result column="article_id" property="articleId"/>
+        <result column="detail" property="detail"/>
+    </resultMap>
+</mapper>

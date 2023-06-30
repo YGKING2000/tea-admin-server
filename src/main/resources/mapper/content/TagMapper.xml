@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tea.admin.server.content.dao.persist.mapper.TagMapper">
+    <!--TagStandardVO getStandardById(Long id);-->
+    <select id="getStandardById" resultMap="StandardResultMap">
+        SELECT id, name, parent_id, enable, sort
+        FROM content_tag
+        WHERE id = #{id}
+    </select>
+    
+    <!--TagTypeStandardVO getStandardTypeById(Long id);-->
+    <select id="getStandardTypeById" resultMap="StandardResultMap2">
+        SELECT id, name, parent_id, enable, sort
+        FROM content_tag
+        WHERE id = #{id}
+    </select>
+    
+    <!--List<TagTypeListItemVO> listTgaType();-->
+    <select id="listTgaType" resultMap="TagTypeListItemResultMap">
+        SELECT id, name, enable, sort
+        FROM content_tag
+        WHERE parent_id = 0
+        ORDER BY sort DESC, id DESC
+    </select>
+
+    <!--List<TagListItemVO> list()-->
+    <select id="list" resultType="com.example.tea.admin.server.content.pojo.vo.TagListItemVO">
+        SELECT t1.id, t1.name, t1.enable, t1.sort, t1.parent_id typeId, t2.name typeName
+        FROM content_tag t1
+                 JOIN content_tag t2 ON t1.parent_id = t2.id
+        WHERE t1.parent_id != 0
+        ORDER BY sort DESC, id DESC
+    </select>
+
+    <resultMap id="StandardResultMap" type="com.example.tea.admin.server.content.pojo.vo.TagStandardVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="typeId"/>
+        <result column="enable" property="enable"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
+    <resultMap id="StandardResultMap2" type="com.example.tea.admin.server.content.pojo.vo.TagTypeStandardVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="typeId"/>
+        <result column="enable" property="enable"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
+    <resultMap id="TagTypeListItemResultMap" type="com.example.tea.admin.server.content.pojo.vo.TagTypeListItemVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="enable" property="enable"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+</mapper>
