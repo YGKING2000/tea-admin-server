@@ -49,7 +49,7 @@ public class TagController {
     @ApiOperation(value = "新增标签类别")
     @ApiOperationSupport(order = 100)
     @PostMapping(value = "/type/add-new")
-    @PreAuthorize("hasAnyAuthority('/content/tag/add-new')")
+    @PreAuthorize("hasAuthority('/content/tag/add-new')")
     public JsonResult addNew(@Valid TagTypeAddNewParam tagTypeAddNewParam) {
         log.debug("开始处理【新增标签类型】请求，参数: {}", tagTypeAddNewParam);
         tagService.addNew(tagTypeAddNewParam);
@@ -59,7 +59,7 @@ public class TagController {
     @ApiOperation(value = "新增标签")
     @ApiOperationSupport(order = 110)
     @PostMapping(value = "/add-new")
-    @PreAuthorize("hasAnyAuthority('/content/tag/add-new')")
+    @PreAuthorize("hasAuthority('/content/tag/add-new')")
     public JsonResult addNew(@Valid TagAddNewParam tagAddNewParam) {
         log.debug("开始处理【新增标签】请求，参数: {}", tagAddNewParam);
         tagService.addNew(tagAddNewParam);
@@ -69,7 +69,7 @@ public class TagController {
     @ApiOperation(value = "删除标签")
     @ApiOperationSupport(order = 200)
     @PostMapping(value = "/{id:[0-9]+}/delete")
-    @PreAuthorize("hasAnyAuthority('/content/tag/delete')")
+    @PreAuthorize("hasAuthority('/content/tag/delete')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -82,7 +82,7 @@ public class TagController {
     @ApiOperation(value = "删除标签类别")
     @ApiOperationSupport(order = 201)
     @PostMapping(value = "/{id:[0-9]+}/type/delete")
-    @PreAuthorize("hasAnyAuthority('/content/tag/delete')")
+    @PreAuthorize("hasAuthority('/content/tag/delete')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -95,7 +95,7 @@ public class TagController {
     @ApiOperation(value = "启用标签")
     @ApiOperationSupport(order = 300)
     @PostMapping(value = "/{id:[0-9]+}/enable")
-    @PreAuthorize("hasAnyAuthority('/content/tag/update')")
+    @PreAuthorize("hasAuthority('/content/tag/update')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -108,7 +108,7 @@ public class TagController {
     @ApiOperation(value = "禁用标签")
     @ApiOperationSupport(order = 301)
     @PostMapping(value = "/{id:[0-9]+}/disable")
-    @PreAuthorize("hasAnyAuthority('/content/tag/update')")
+    @PreAuthorize("hasAuthority('/content/tag/update')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -121,7 +121,7 @@ public class TagController {
     @ApiOperation(value = "启用标签类别")
     @ApiOperationSupport(order = 302)
     @PostMapping(value = "/{id:[0-9]+}/type/enable")
-    @PreAuthorize("hasAnyAuthority('/content/tag/update')")
+    @PreAuthorize("hasAuthority('/content/tag/update')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -134,7 +134,7 @@ public class TagController {
     @ApiOperation(value = "禁用标签类别")
     @ApiOperationSupport(order = 303)
     @PostMapping(value = "/{id:[0-9]+}/type/disable")
-    @PreAuthorize("hasAnyAuthority('/content/tag/update')")
+    @PreAuthorize("hasAuthority('/content/tag/update')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -147,7 +147,7 @@ public class TagController {
     @ApiOperation(value = "根据ID修改标签")
     @ApiOperationSupport(order = 310)
     @PostMapping(value = "/{id:[0-9]+}/update/info")
-    @PreAuthorize("hasAnyAuthority('/content/tag/update')")
+    @PreAuthorize("hasAuthority('/content/tag/update')")
     public JsonResult update(@Valid TagUpdateInfoParam tagUpdateInfoParam) {
         log.debug("开始处理【根据ID修改标签】请求，参数: {}", tagUpdateInfoParam);
         tagService.updateInfoById(tagUpdateInfoParam);
@@ -157,7 +157,7 @@ public class TagController {
     @ApiOperation(value = "根据ID修改标签类别")
     @ApiOperationSupport(order = 310)
     @PostMapping(value = "/{id:[0-9]+}/type/update/info")
-    @PreAuthorize("hasAnyAuthority('/content/tag/update')")
+    @PreAuthorize("hasAuthority('/content/tag/update')")
     public JsonResult updateType(@Valid TagTypeUpdateInfoParam tagTypeUpdateInfoParam) {
         log.debug("开始处理【根据ID修改标签类别】请求，参数: {}", tagTypeUpdateInfoParam);
         tagService.updateTypeInfoById(tagTypeUpdateInfoParam);
@@ -167,7 +167,7 @@ public class TagController {
     @ApiOperation(value = "根据ID查询标签")
     @ApiOperationSupport(order = 400)
     @GetMapping(value = "/{id:[0-9]+}")
-    @PreAuthorize("hasAnyAuthority('/content/tag/read')")
+    @PreAuthorize("hasAuthority('/content/tag/read')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -180,7 +180,7 @@ public class TagController {
     @ApiOperation(value = "根据ID查询标签类别")
     @ApiOperationSupport(order = 401)
     @GetMapping(value = "/{id:[0-9]+}/type")
-    @PreAuthorize("hasAnyAuthority('/content/tag/read')")
+    @PreAuthorize("hasAuthority('/content/tag/read')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -193,7 +193,7 @@ public class TagController {
     @ApiOperation(value = "查询标签列表")
     @ApiOperationSupport(order = 411)
     @GetMapping(value = "")
-    @PreAuthorize("hasAnyAuthority('/content/tag/read')")
+    @PreAuthorize("hasAuthority('/content/tag/read')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer"),
             @ApiImplicitParam(name = "queryType", value = "是否需要分页，查询全部数据时值应为all")
@@ -215,7 +215,7 @@ public class TagController {
     @ApiOperation(value = "查询标签类别列表")
     @ApiOperationSupport(order = 410)
     @GetMapping(value = "/tag-type/list")
-    @PreAuthorize("hasAnyAuthority('/content/tag/read')")
+    @PreAuthorize("hasAuthority('/content/tag/read')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer"),
             @ApiImplicitParam(name = "queryType", value = "是否需要分页，查询全部数据时值应为all")

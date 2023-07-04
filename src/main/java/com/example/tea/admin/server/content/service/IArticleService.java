@@ -4,6 +4,7 @@ import com.example.tea.admin.server.common.pojo.vo.PageData;
 import com.example.tea.admin.server.common.security.CurrentPrincipal;
 import com.example.tea.admin.server.content.pojo.param.ArticleAddNewParam;
 import com.example.tea.admin.server.content.pojo.vo.ArticleListItemVO;
+import com.example.tea.admin.server.content.pojo.vo.ArticleStandardVO;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -30,4 +31,6 @@ public interface IArticleService {
     PageData<ArticleListItemVO> list(Integer pageNum, Integer pageSize);
 
     PageData<ArticleListItemVO> list(Integer pageNum);
+
+    ArticleStandardVO getStandardById(Long id);
 }

@@ -29,7 +29,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@Api(tags = "3.1 文件上传模块")
+@Api(tags = "4.1 文件上传模块")
 @RequestMapping("/resources")
 public class ResourceController {
 

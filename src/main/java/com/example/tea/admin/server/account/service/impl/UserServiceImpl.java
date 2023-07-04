@@ -1,12 +1,14 @@
 package com.example.tea.admin.server.account.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.example.tea.admin.server.account.dao.cache.IUserCacheRepository;
 import com.example.tea.admin.server.account.dao.persist.repository.IUserRepository;
 import com.example.tea.admin.server.account.dao.persist.repository.IUserRoleRepository;
 import com.example.tea.admin.server.account.pojo.entity.User;
 import com.example.tea.admin.server.account.pojo.entity.UserRole;
 import com.example.tea.admin.server.account.pojo.param.UserAddNewParam;
 import com.example.tea.admin.server.account.pojo.param.UserLoginInfoParam;
+import com.example.tea.admin.server.account.pojo.po.UserLoginInfoPO;
 import com.example.tea.admin.server.account.pojo.vo.UserListItemVO;
 import com.example.tea.admin.server.account.pojo.vo.UserLoginResultVO;
 import com.example.tea.admin.server.account.pojo.vo.UserStandardVO;
@@ -57,6 +59,9 @@ public class UserServiceImpl implements IUserService {
 
     @Resource
     private IUserRoleRepository userRoleRepository;
+    
+    @Resource
+    private IUserCacheRepository cacheRepository;
 
     @Resource
     private AuthenticationManager authenticationManager;
@@ -66,7 +71,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserLoginResultVO login(UserLoginInfoParam userLoginInfoParam) {
+    public UserLoginResultVO login(UserLoginInfoParam userLoginInfoParam, String ip, String userAgent) {
         log.debug("开始处理【用户登录】的业务，参数: {}", userLoginInfoParam);
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userLoginInfoParam.getUsername(), userLoginInfoParam.getPassword());
@@ -93,7 +98,8 @@ public class UserServiceImpl implements IUserService {
         claims.put("id", id);
         claims.put("username", username);
         claims.put("avatar", avatar);
-        claims.put("authoritiesJsonString", authoritiesJsonString);
+        // TODO 生成JWT时，不再存入权限列表
+        // claims.put("authoritiesJsonString", authoritiesJsonString);
 
         // 注意在第一个数后加上L将结果变为long，避免超过int的最大值 👇
         Date date = new Date(System.currentTimeMillis() + durationInMinute * 60 * 1000);
@@ -104,7 +110,16 @@ public class UserServiceImpl implements IUserService {
                 .setExpiration(date)// Jwt过期的时间
                 .signWith(SignatureAlgorithm.HS256, secretKey)// 验证方式+签名
                 .compact();
+
+        // TODO 生成JWT之后，需要将权限列表存入到Redis中
+        UserLoginInfoPO userLoginInfoPO = new UserLoginInfoPO();
+        userLoginInfoPO.setIp(ip);
+        userLoginInfoPO.setUserAgent(userAgent);
+        userLoginInfoPO.setAuthoritiesJsonString(authoritiesJsonString);
+        cacheRepository.saveLoginInfo(jwt, userLoginInfoPO);
         
+        cacheRepository.saveEnableByUserId(id, 1);
+
         return new UserLoginResultVO().setId(id).setUsername(username).setAvatar(avatar).setToken(jwt);
 
         // log.debug("准备将认证信息结果存入到SecurityContext中……");
@@ -266,6 +281,11 @@ public class UserServiceImpl implements IUserService {
             String message = ENABLE_TEXT[enable] + "用户失败，服务器忙，请稍后再次尝试!";
             log.warn(message);
             throw new ServiceException(ServiceCode.ERROR_UPDATE, message);
+        }
+
+        Integer enableByUserId = cacheRepository.getEnableByUserId(id);
+        if (enableByUserId != null) {
+            cacheRepository.saveEnableByUserId(id, enable);
         }
     }
 

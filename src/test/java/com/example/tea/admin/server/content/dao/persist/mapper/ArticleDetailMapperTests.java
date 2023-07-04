@@ -28,6 +28,6 @@ public class ArticleDetailMapperTests {
     
     @Test
     void getStandardById() {
-        // System.out.println(mapper.getStandardById(2L));
+        // System.out.println(GoodsMapper.getStandardById(2L));
     }
 }

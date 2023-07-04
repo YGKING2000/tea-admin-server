@@ -103,7 +103,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(urls) // 匹配某些请求
                 .permitAll() // 许可，即不需要通过认证就可以访问
                 .anyRequest() // 任何请求，从执行效果来看，也可以视为: 除了以上配置过的以外的其它请求
-                .authenticated(); // 需要通过认证才可以访问
+                .authenticated() // 需要通过认证才可以访问
+        ;
 
         // 是否调用以下方法，将决定是否启用默认的登录页面
         // 当未通过认证时，如果有登录页，则自动跳转到登录，如果没有登录页，则直接响应403

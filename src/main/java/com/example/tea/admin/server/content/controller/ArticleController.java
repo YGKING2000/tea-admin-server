@@ -39,7 +39,7 @@ public class ArticleController {
     @PostMapping("/add-new")
     @ApiOperation("发表文章")
     @ApiOperationSupport(order = 100)
-    @PreAuthorize("hasAnyAuthority('/content/category/add-new')")
+    @PreAuthorize("hasAuthority('/content/category/add-new')")
     public JsonResult addNew(
             @AuthenticationPrincipal @ApiIgnore CurrentPrincipal currentPrincipal,
             @ApiIgnore HttpServletRequest request,
@@ -53,7 +53,7 @@ public class ArticleController {
     @PostMapping("/{id:[0-9]+}/delete")
     @ApiOperation("删除文章")
     @ApiOperationSupport(order = 200)
-    @PreAuthorize("hasAnyAuthority('/content/category/delete')")
+    @PreAuthorize("hasAuthority('/content/category/delete')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", dataType = "Long", required = true)
     })
@@ -63,10 +63,10 @@ public class ArticleController {
         return JsonResult.ok();
     }
 
-    @ApiOperation(value = "查询文章列表")
+    @ApiOperation("查询文章列表")
     @ApiOperationSupport(order = 400)
+    @PreAuthorize("hasAuthority('/content/article/read')")
     @GetMapping(value = "/list")
-    @PreAuthorize("hasAnyAuthority('/content/article/read')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", required = true),
             @ApiImplicitParam(name = "queryType", value = "是否需要分页，查询全部数据时值应为all")
@@ -83,5 +83,17 @@ public class ArticleController {
             list = service.list(pageNum);
         }
         return JsonResult.ok(list);
+    }
+
+    @ApiOperation("查询文章详情")
+    @ApiOperationSupport(order = 401)
+    @PreAuthorize("hasAuthority('/content/article/read')")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "数据ID", dataType = "Long", example = "7")
+    })
+    @GetMapping("/{id:[0-9]+}/detail")
+    public JsonResult getStandardById(@PathVariable Long id) {
+        log.debug("开始处理【】请求，参数为: {}", id);
+        return JsonResult.ok(service.getStandardById(id));
     }
 }

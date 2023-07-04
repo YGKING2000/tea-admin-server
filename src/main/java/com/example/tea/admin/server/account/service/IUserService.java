@@ -24,11 +24,12 @@ public interface IUserService {
 
     /**
      * 用户登录
-     *
+     * @param ip 用户IP地址
+     * @param userAgent 用户的浏览器信息
      * @param userLoginInfoParam 封装了登录信息的对象
      // * @return 用户成功登录的JWT
      */
-    UserLoginResultVO login(UserLoginInfoParam userLoginInfoParam);
+    UserLoginResultVO login(UserLoginInfoParam userLoginInfoParam, String ip, String userAgent);
 
     /**
      * 添加用户

@@ -37,6 +37,16 @@ spring:
     resources:
       # 静态资源文件夹，如果多个，使用英文的逗号分隔，本地路径必须使用 file: 作为前缀
       static-locations: classpath:static, file:${tea-store.upload.root-dir-name}
+  # Redis的配置
+  redis:
+    # 主机，默认为localhost
+    host: localhost
+    # 端口，默认为6379
+    port: 6379
+    # 用户名，如果没有则使用 ~ 表示 无
+    username: ~
+    # 密码，如果没有则使用 ~ 表示 无
+    password: ~
 
 # 将com.example.tea下的日志级别设置为trace，默认为debug
 # 日志配置

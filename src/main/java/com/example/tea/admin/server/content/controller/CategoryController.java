@@ -79,7 +79,7 @@ public class CategoryController {
     @ApiOperation(value = "启用分类")
     @ApiOperationSupport(order = 301)
     @PostMapping(value = "/{id:[0-9]+}/enable")
-    @PreAuthorize("hasAnyAuthority('/content/category/update')")
+    @PreAuthorize("hasAuthority('/content/category/update')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -92,7 +92,7 @@ public class CategoryController {
     @ApiOperation(value = "禁用分类")
     @ApiOperationSupport(order = 302)
     @PostMapping(value = "/{id:[0-9]+}/disable")
-    @PreAuthorize("hasAnyAuthority('/content/category/update')")
+    @PreAuthorize("hasAuthority('/content/category/update')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -105,7 +105,7 @@ public class CategoryController {
     @ApiOperation(value = "显示分类")
     @ApiOperationSupport(order = 303)
     @PostMapping(value = "/{id:[0-9]+}/display")
-    @PreAuthorize("hasAnyAuthority('/content/category/update')")
+    @PreAuthorize("hasAuthority('/content/category/update')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })
@@ -118,7 +118,7 @@ public class CategoryController {
     @ApiOperation(value = "隐藏分类")
     @ApiOperationSupport(order = 304)
     @PostMapping(value = "/{id:[0-9]+}/hidden")
-    @PreAuthorize("hasAnyAuthority('/content/category/update')")
+    @PreAuthorize("hasAuthority('/content/category/update')")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Long"),
     })

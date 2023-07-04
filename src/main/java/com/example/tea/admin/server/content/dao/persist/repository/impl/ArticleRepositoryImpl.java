@@ -46,7 +46,7 @@ public class ArticleRepositoryImpl implements IArticleRepository {
     }
 
     @Override
-    public ArticleStandardVO getStandardVO(Long id) {
+    public ArticleStandardVO getStandardById(Long id) {
         log.debug("开始执行【根据ID查询文章】操作，参数为: {}", id);
         return mapper.getStandardById(id);
     }

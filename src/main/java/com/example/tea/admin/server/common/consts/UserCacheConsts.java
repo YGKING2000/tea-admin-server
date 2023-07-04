@@ -6,11 +6,16 @@ package com.example.tea.admin.server.common.consts;
  * @author java@tedu.cn
  * @version 1.0
  */
-public interface JwtCacheConsts {
+public interface UserCacheConsts {
 
     /**
      * 缓存的JWT前缀
      */
     String USER_JWT_PREFIX = "user:jwt:";
 
+
+    /**
+     * 缓存的账号启用前缀
+     */
+    String USER_ENABLE_PREFIX = "user:enable:";
 }

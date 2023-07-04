@@ -79,7 +79,7 @@ public class ArticleServiceImpl implements IArticleService {
     public void delete(Long id) {
         log.debug("开始处理【根据ID删除文章】业务，参数为: {}", id);
         
-        ArticleStandardVO article = articleRepository.getStandardVO(id);
+        ArticleStandardVO article = articleRepository.getStandardById(id);
         if (article == null) {
             String message = "删除文章失败，尝试删除的文章不存在!";
             log.warn(message);
@@ -103,5 +103,11 @@ public class ArticleServiceImpl implements IArticleService {
     public PageData<ArticleListItemVO> list(Integer pageNum) {
         log.debug("开始处理【查询文章列表】业务，页码为: {}", pageNum);
         return articleRepository.list(pageNum, defaultQueryPageSize);
+    }
+
+    @Override
+    public ArticleStandardVO getStandardById(Long id) {
+        log.debug("开始处理【根据ID查询查询文章详情】业务，参数为: {}", id);
+        return articleRepository.getStandardById(id);
     }
 }

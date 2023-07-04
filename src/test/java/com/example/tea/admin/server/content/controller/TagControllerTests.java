@@ -24,9 +24,9 @@ public class TagControllerTests {
     MockMvc mockMvc;
 
     @Test
-    @Sql(scripts = {"classpath:/sql/truncate_table.sql", "classpath:/sql/insert_data.sql"})
+    /*@Sql(scripts = {"classpath:/sql/truncate_table.sql", "classpath:/sql/insert_data.sql"})
     @Sql(scripts = {"classpath:/sql/truncate_table.sql", "classpath:/sql/insert_data.sql"},
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)*/
     void addNew() throws Throwable {
         String url = "/content/tags/add-new";
         String name = "茶具相关标签001";

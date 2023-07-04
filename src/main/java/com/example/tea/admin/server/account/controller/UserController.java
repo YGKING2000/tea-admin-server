@@ -6,6 +6,7 @@ import com.example.tea.admin.server.account.pojo.vo.UserListItemVO;
 import com.example.tea.admin.server.account.pojo.vo.UserLoginResultVO;
 import com.example.tea.admin.server.account.pojo.vo.UserStandardVO;
 import com.example.tea.admin.server.account.service.IUserService;
+import com.example.tea.admin.server.common.consts.HttpConsts;
 import com.example.tea.admin.server.common.pojo.vo.PageData;
 import com.example.tea.admin.server.common.security.CurrentPrincipal;
 import com.example.tea.admin.server.common.web.JsonResult;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -36,7 +38,7 @@ import javax.validation.Valid;
 @RequestMapping("/account/users")
 @Validated
 @Api(tags = "1.1. 用户管理模块")
-public class UserController {
+public class UserController implements HttpConsts {
 
     @Resource
     private IUserService userService;
@@ -48,9 +50,13 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation("用户登录")
     @ApiOperationSupport(order = 10)
-    public JsonResult login(@Validated UserLoginInfoParam userLoginInfoParam) {
+    public JsonResult login(
+            @Validated UserLoginInfoParam userLoginInfoParam, 
+            @ApiIgnore HttpServletRequest request) {
         log.debug("开始处理【用户登录】的请求，参数: {}", userLoginInfoParam);
-        UserLoginResultVO userLoginResultVO = userService.login(userLoginInfoParam);
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader(HEADER_USER_AGENT);
+        UserLoginResultVO userLoginResultVO = userService.login(userLoginInfoParam, ip, userAgent);
         return JsonResult.ok(userLoginResultVO);
     }
 

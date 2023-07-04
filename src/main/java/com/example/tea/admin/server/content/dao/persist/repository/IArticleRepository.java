@@ -30,7 +30,7 @@ public interface IArticleRepository {
      * @param id 数据ID
      * @return 文章标准VO类对象
      */
-    ArticleStandardVO getStandardVO(Long id);
+    ArticleStandardVO getStandardById(Long id);
 
     /**
      * 查询文章列表
