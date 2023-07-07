@@ -11,7 +11,7 @@
     </select>
 
     <!--List<ArticleListItemVO> list();-->
-    <select id="list" resultMap="ListResultMap">
+    <select id="list" resultMap="listResultMap">
         SELECT
         <include refid="listQueryFields"/>
         FROM content_article
@@ -19,6 +19,46 @@
         ORDER BY content_article.sort DESC, content_article.id DESC
     </select>
 
+    <!--List<ArticleSearchVO> listSearch();-->
+    <select id="listSearch" resultMap="listSearchResultMap">
+        SELECT
+        <include refid="listSearchQueryFields"/>
+        FROM content_article
+        ORDER BY sort DESC, id DESC
+    </select>
+
+    <sql id="listSearchQueryFields">
+        <if test="true">
+            id,
+            author_id,
+            author_name,
+            title,
+            brief,
+            sort,
+            cover_url,
+            up_count,
+            down_count,
+            click_count,
+            comment_count,
+            gmt_create,
+            gmt_modified
+        </if>
+    </sql>
+    <resultMap id="listSearchResultMap" type="com.example.tea.admin.server.content.pojo.vo.ArticleSearchVO">
+        <id column="id" property="id"/>
+        <result column="author_id" property="authorId"/>
+        <result column="author_name" property="authorName"/>
+        <result column="title" property="title"/>
+        <result column="brief" property="brief"/>
+        <result column="sort" property="sort"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="up_count" property="upCount"/>
+        <result column="down_count" property="downCount"/>
+        <result column="click_count" property="clickCount"/>
+        <result column="comment_count" property="commentCount"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
 
     <sql id="StandardQueryFields">
         <if test="true">
@@ -91,7 +131,7 @@
             content_article.display_state
         </if>
     </sql>
-    <resultMap id="ListResultMap" type="com.example.tea.admin.server.content.pojo.vo.ArticleListItemVO">
+    <resultMap id="listResultMap" type="com.example.tea.admin.server.content.pojo.vo.ArticleListItemVO">
         <id column="id" property="id"/>
         <result column="author_id" property="authorId"/>
         <result column="author_name" property="authorName"/>
@@ -111,4 +151,5 @@
         <result column="check_remarks" property="checkRemarks"/>
         <result column="display_state" property="displayState"/>
     </resultMap>
+
 </mapper>

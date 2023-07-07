@@ -28,6 +28,11 @@ public interface IArticleService {
      */
     void delete(Long id);
 
+    /** 
+     * 更新搜索服务器中的文章列表
+     */
+    void rebuildSearch();
+    
     PageData<ArticleListItemVO> list(Integer pageNum, Integer pageSize);
 
     PageData<ArticleListItemVO> list(Integer pageNum);

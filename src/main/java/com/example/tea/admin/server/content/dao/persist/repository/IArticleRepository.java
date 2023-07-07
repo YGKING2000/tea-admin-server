@@ -3,6 +3,7 @@ package com.example.tea.admin.server.content.dao.persist.repository;
 import com.example.tea.admin.server.common.pojo.vo.PageData;
 import com.example.tea.admin.server.content.pojo.entity.Article;
 import com.example.tea.admin.server.content.pojo.vo.ArticleListItemVO;
+import com.example.tea.admin.server.content.pojo.vo.ArticleSearchVO;
 import com.example.tea.admin.server.content.pojo.vo.ArticleStandardVO;
 
 
@@ -34,9 +35,19 @@ public interface IArticleRepository {
 
     /**
      * 查询文章列表
-     * @param pageNum 页码
+     *
+     * @param pageNum  页码
      * @param pageSize 每页记录数
      * @return 文章列表
      */
     PageData<ArticleListItemVO> list(Integer pageNum, Integer pageSize);
+
+    /**
+     * 查询放入elsticsearch中的文章列表数据
+     *
+     * @param pageNum  页码
+     * @param pageSize 每页记录数
+     * @return 放入elsticsearch中的文章列表数据
+     */
+    PageData<ArticleSearchVO> listSearch(Integer pageNum, Integer pageSize);
 }

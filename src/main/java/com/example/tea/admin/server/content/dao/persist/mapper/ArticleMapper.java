@@ -3,6 +3,7 @@ package com.example.tea.admin.server.content.dao.persist.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.tea.admin.server.content.pojo.entity.Article;
 import com.example.tea.admin.server.content.pojo.vo.ArticleListItemVO;
+import com.example.tea.admin.server.content.pojo.vo.ArticleSearchVO;
 import com.example.tea.admin.server.content.pojo.vo.ArticleStandardVO;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,13 @@ import java.util.List;
 @Repository
 public interface ArticleMapper extends BaseMapper<Article> {
     ArticleStandardVO getStandardById(Long id);
-    
+
     List<ArticleListItemVO> list();
+
+    /**
+     * 查询放入elsticsearch中的文章列表数据
+     *
+     * @return 放入elsticsearch中的文章列表数据
+     */
+    List<ArticleSearchVO> listSearch();
 }

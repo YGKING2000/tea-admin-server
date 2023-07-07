@@ -1,10 +1,12 @@
 package com.example.tea.admin.server.content.dao.persist.repository;
 
+import com.example.tea.admin.server.common.pojo.vo.PageData;
 import com.example.tea.admin.server.content.pojo.entity.Article;
+import com.example.tea.admin.server.content.pojo.vo.ArticleSearchVO;
 import org.junit.jupiter.api.Test;
-import javax.annotation.Resource;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
+
+import javax.annotation.Resource;
 
 /**
  * @author YGKING e-mail:hrd18960706057@163.com
@@ -19,8 +21,8 @@ public class ArticleRepositoryTests {
     IArticleRepository repository;
 
     @Test
-    @Sql(value = "classpath:/sql/truncate_table.sql")
-    @Sql(scripts = "classpath:/sql/truncate_table.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+        // @Sql(value = "classpath:/sql/truncate_table.sql")
+        // @Sql(scripts = "classpath:/sql/truncate_table.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void insert() {
         Article article = new Article();
         article.setAuthorId(1L);
@@ -28,5 +30,15 @@ public class ArticleRepositoryTests {
         article.setCategoryId(3L);
         repository.insert(article);
         System.out.println(article);
+    }
+
+    @Test
+    void listSearch() {
+        Integer pageNum = 1;
+        Integer pageSize = 10;
+        PageData<ArticleSearchVO> pageData = repository.listSearch(pageNum, pageSize);
+        for (ArticleSearchVO article : pageData.getList()) {
+            System.out.println(article);
+        }
     }
 }

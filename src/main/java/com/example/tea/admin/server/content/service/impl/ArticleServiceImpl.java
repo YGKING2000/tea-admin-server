@@ -6,13 +6,14 @@ import com.example.tea.admin.server.common.security.CurrentPrincipal;
 import com.example.tea.admin.server.common.web.ServiceCode;
 import com.example.tea.admin.server.content.dao.persist.repository.IArticleDetailRepository;
 import com.example.tea.admin.server.content.dao.persist.repository.IArticleRepository;
+import com.example.tea.admin.server.content.dao.search.IArticleSearchRepository;
 import com.example.tea.admin.server.content.pojo.entity.Article;
 import com.example.tea.admin.server.content.pojo.entity.ArticleDetail;
 import com.example.tea.admin.server.content.pojo.param.ArticleAddNewParam;
 import com.example.tea.admin.server.content.pojo.vo.ArticleDetailStandardVO;
 import com.example.tea.admin.server.content.pojo.vo.ArticleListItemVO;
+import com.example.tea.admin.server.content.pojo.vo.ArticleSearchVO;
 import com.example.tea.admin.server.content.pojo.vo.ArticleStandardVO;
-import com.example.tea.admin.server.content.pojo.vo.TagListItemVO;
 import com.example.tea.admin.server.content.service.IArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -35,6 +36,9 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Resource
     private IArticleDetailRepository articleDetailRepository;
+
+    @Resource
+    private IArticleSearchRepository articleSearchRepository;
 
     @Value("${tea-store.dao.default-query-page-size}")
     private Integer defaultQueryPageSize;
@@ -78,7 +82,7 @@ public class ArticleServiceImpl implements IArticleService {
     @Override
     public void delete(Long id) {
         log.debug("开始处理【根据ID删除文章】业务，参数为: {}", id);
-        
+
         ArticleStandardVO article = articleRepository.getStandardById(id);
         if (article == null) {
             String message = "删除文章失败，尝试删除的文章不存在!";
@@ -88,9 +92,28 @@ public class ArticleServiceImpl implements IArticleService {
 
         Long articleId = article.getId();
         ArticleDetailStandardVO articleDetail = articleDetailRepository.getStandardByArticleId(articleId);
-        
-        
+        if (articleDetail == null) {
+            String message = "删除文章失败，尝试删除的文章不存在!";
+            log.warn(message);
+            throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, message);
+        }
         articleRepository.deleteById(id);
+    }
+
+    @Override
+    public void rebuildSearch() {
+        log.debug("开始处理【更新搜索服务器中的文章列表】的业务，无参数");
+        articleSearchRepository.deleteAll();
+        Integer pageNum = 1;
+        Integer pageSize = 10;
+        Integer maxPage;
+        PageData<ArticleSearchVO> pageData;
+        do {
+            pageData = articleRepository.listSearch(pageNum, pageSize);
+            articleSearchRepository.saveAll(pageData.getList());
+            maxPage = pageData.getMaxPage();
+            pageNum++;
+        } while (pageNum <= maxPage);
     }
 
     @Override

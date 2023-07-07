@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 @SpringBootTest
 public class ArticleServiceTests {
     @Resource
-    IArticleService articleService;
-
+    private IArticleService articleService;
+    
     @Test
     @Sql(scripts = {"classpath:/sql/truncate_table.sql", "classpath:/sql/insert_data.sql"})
     @Sql(scripts = "classpath:/sql/truncate_table.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -32,5 +32,10 @@ public class ArticleServiceTests {
 
         // articleService.addNew(principal, remoteAddr, param);
         // System.out.println("数据添加成功!");
+    }
+    
+    @Test
+    void rebuildSearch() {
+        articleService.rebuildSearch();
     }
 }

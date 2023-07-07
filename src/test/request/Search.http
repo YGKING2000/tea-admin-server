@@ -1,0 +1,214 @@
+### 数据1
+PUT http://localhost:9200/index_search/_doc/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "散装龙井",
+  "desc": "性价比之王",
+  "sort": 150,
+  "price": 200
+}
+
+### 数据2
+PUT http://localhost:9200/index_search/_doc/2
+Content-Type: application/json
+
+{
+  "id": 2,
+  "title": "龙井礼盒套装",
+  "desc": "超值套装",
+  "sort": 160,
+  "price": 668
+}
+
+### 数据3
+PUT http://localhost:9200/index_search/_doc/3
+Content-Type: application/json
+
+{
+  "id": 3,
+  "title": "新上架铁观音",
+  "desc": "新茶上市",
+  "sort": 120,
+  "price": 370
+}
+
+### 数据4
+PUT http://localhost:9200/index_search/_doc/4
+Content-Type: application/json
+
+{
+  "id": 4,
+  "title": "武夷大红袍",
+  "desc": "经典红茶",
+  "sort": 130,
+  "price": 988
+}
+
+### 数据5
+PUT http://localhost:9200/index_search/_doc/5
+Content-Type: application/json
+
+{
+  "id": 5,
+  "title": "茉莉花茶",
+  "desc": "小清新",
+  "sort": 190,
+  "price": 120
+}
+
+### 搜索文档: 按照title的"套装"进行搜索
+GET http://localhost:9200/index_search/_search?q=title:套装
+
+### 搜索文档: 按照desc的"红茶"进行搜索
+GET http://localhost:9200/index_search/_search?q=desc:红茶
+
+### 搜索文档: 按照desc的"经典红茶"进行搜索
+GET http://localhost:9200/index_search/_search?q=desc:经典红茶
+
+### 查询索引index_search中的所有文档
+GET http://localhost:9200/index_search/_search
+
+### 查看索引信息
+GET http://localhost:9200/index_search
+
+### 删除指定索引
+DELETE http://localhost:9200/index_search
+
+### 创建指定数据格式的索引
+PUT http://localhost:9200/index_search
+Content-Type: application/json
+
+{
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "long"
+      },
+      "title": {
+        "type": "text"
+      },
+      "desc": {
+        "type": "keyword"
+      },
+      "sort": {
+        "type": "integer"
+      },
+      "price": {
+        "type": "integer"
+      }
+    }
+  }
+}
+
+### 搜索: 简单的query搜索
+GET http://localhost:9200/index_search/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": {
+      "title": "套装"
+    }
+  }
+}
+
+### 搜索: 多个条件的搜索  must >>> AND / should >>> OR / must_not >>> !=
+GET http://localhost:9200/index_search/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must_not": {
+        "match": {
+          "title": "茶"
+        }
+      },
+      "must": {
+        "match": {
+          "title": "套装"
+        }
+      }
+    }
+  },
+  "_source": []
+}
+
+### 
+POST http://localhost:9200/index_search/_doc/4/_update
+Content-Type: application/json
+
+{
+  "doc": {
+    "sort": 150
+  }
+}
+
+### 搜索: 指定搜索字段
+GET http://localhost:9200/index_search/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match_all": {}
+  },
+  "_source": []
+}
+
+### 搜索: 对数据进行排序
+GET http://localhost:9200/index_search/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match_all": {}
+  },
+  "_source": [],
+  "sort": {
+    "sort": {
+      "order": "desc"
+    },
+    "id": {
+      "order": "asc"
+    }
+  }
+}
+
+### 搜索: 分页搜索，from起始位置，size查询多少条数据
+GET http://localhost:9200/index_search/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match_all": {}
+  },
+  "_source": [
+    "id",
+    "title",
+    "desc",
+    "price"
+  ],
+  "from": 1,
+  "size": 3
+}
+
+### 搜索: 高亮显示，通过与query同级的highlight标签进行配置，会在搜索结果中生成与数据结果同级的highlight对象，默认会在匹配的文本上添加em标签
+GET http://localhost:9200/index_search/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": {
+      "title": "套装"
+    }
+  },
+  "highlight": {
+    "fields": {
+      "title": {}
+    },
+    "pre_tags": "<p style='color: skyblue;'>",
+    "post_tags": "</p>" 
+  }
+}

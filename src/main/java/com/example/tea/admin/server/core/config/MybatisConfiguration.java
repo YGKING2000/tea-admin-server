@@ -11,9 +11,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @MapperScan({
-        "com.example.tea.admin.server.content.dao.persist.mapper",
-        "com.example.tea.admin.server.account.dao.persist.mapper",
-        "com.example.tea.admin.server.product.dao.persist.mapper"
+        "com.example.tea.admin.server.*.dao.persist.mapper"
 })
 public class MybatisConfiguration {
 }

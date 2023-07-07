@@ -1,0 +1,67 @@
+### 添加数据: 随机生成ID
+POST http://localhost:9200/index_crud/_doc
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "开始懂了",
+  "sort": 99,
+  "detail": "我竟然没有调头，最残忍那一刻，静静看你走，一点都不像我，原来人会变得温柔，是透彻的懂了，爱情是流动的 不由人的，何必激动着要理由"
+}
+
+### 获取数据
+GET http://localhost:9200/index_crud/_doc/ucAKJYkBwV5xoTfL0bs6
+
+### 添加数据: 指定ID
+POST http://localhost:9200/index_crud/_doc/9527
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "开始懂了",
+  "sort": 99,
+  "detail": "我竟然没有调头，最残忍那一刻，静静看你走，一点都不像我，原来人会变得温柔，是透彻的懂了，爱情是流动的 不由人的，何必激动着要理由"
+}
+
+### 获取数据
+GET http://localhost:9200/index_crud/_doc/9527
+
+### 查看当前索引中的所有文档
+GET http://localhost:9200/index_crud/_search
+
+### 修改数据: 直接替换整个数据
+PUT http://localhost:9200/index_crud/_doc/9527
+Content-Type: application/json
+
+{
+  "title": "我怀念的"
+}
+
+### 获取数据
+GET http://localhost:9200/index_crud/_doc/9527
+
+### 修改数据: 部分修改，若修改的部分原本不存在，则会将修改部分直接添加倒原本数据上
+POST http://localhost:9200/index_crud/_doc/9527/_update
+Content-Type: application/json
+
+{
+  "doc": {
+    "title": "雨天",
+    "gmtCreate": "2023-07-05"
+  }
+}
+
+### 删除数据: 根据ID删除指定数据
+DELETE http://localhost:9200/index_crud/_doc/9528
+
+### 创建索引
+PUT http://localhost:9200/article
+
+### 删除索引
+DELETE http://localhost:9200/article
+
+### 查看所有索引信息
+GET http://localhost:9200/_cat/indices?v
+
+### 查看索引信息
+GET http://localhost:9200/article

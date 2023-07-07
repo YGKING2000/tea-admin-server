@@ -1,0 +1,36 @@
+### 简单的分词: 中文
+POST http://localhost:9200/_analyze
+Content-Type: application/json
+
+{
+  "text": "很高兴见到你！"
+}
+
+### 简单的分词
+POST http://localhost:9200/_analyze
+Content-Type: application/json
+
+{
+  "text": "Nice to meet you!"
+}
+
+###
+GET http://localhost:9200
+
+### 使用IK的分词: 最大词量(最细粒度)
+POST http://localhost:9200/_analyze
+Content-Type: application/json
+
+{
+  "analyzer": "ik_max_word",
+  "text": "凌然掌握着完美级的心肺复苏技能，自觉需要承担相应的责任"
+}
+
+### 使用IK的分词: 智能
+POST http://localhost:9200/_analyze
+Content-Type: application/json
+
+{
+  "analyzer": "ik_smart",
+  "text": "数据库"
+}

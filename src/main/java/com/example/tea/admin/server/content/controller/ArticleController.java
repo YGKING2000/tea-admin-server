@@ -63,6 +63,16 @@ public class ArticleController {
         return JsonResult.ok();
     }
 
+    @ApiOperation("更新搜索服务器中的文章列表")
+    @ApiOperationSupport(order = 300)
+    @PreAuthorize("hasAuthority('/content/article/update')")
+    @PostMapping("/rebuild-search")
+    public JsonResult rebuildSearch() {
+        log.debug("开始处理【更新搜索服务器中的文章列表】的请求，无参数");
+        service.rebuildSearch();
+        return JsonResult.ok();
+    }
+
     @ApiOperation("查询文章列表")
     @ApiOperationSupport(order = 400)
     @PreAuthorize("hasAuthority('/content/article/read')")

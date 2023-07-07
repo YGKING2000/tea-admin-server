@@ -6,8 +6,8 @@ import com.example.tea.admin.server.content.dao.persist.mapper.ArticleMapper;
 import com.example.tea.admin.server.content.dao.persist.repository.IArticleRepository;
 import com.example.tea.admin.server.content.pojo.entity.Article;
 import com.example.tea.admin.server.content.pojo.vo.ArticleListItemVO;
+import com.example.tea.admin.server.content.pojo.vo.ArticleSearchVO;
 import com.example.tea.admin.server.content.pojo.vo.ArticleStandardVO;
-import com.example.tea.admin.server.content.pojo.vo.TagListItemVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -53,10 +53,21 @@ public class ArticleRepositoryImpl implements IArticleRepository {
 
     @Override
     public PageData<ArticleListItemVO> list(Integer pageNum, Integer pageSize) {
+        log.debug("开始执行【查询文章列表】操作，页码: {}，每页记录数: {}", pageNum, pageSize);
         PageHelper.startPage(pageNum, pageSize);
         List<ArticleListItemVO> list = mapper.list();
 
         PageInfo<ArticleListItemVO> pageInfo = new PageInfo<>(list);
+        return PageInfoToPageDataConverter.convert(pageInfo);
+    }
+
+    @Override
+    public PageData<ArticleSearchVO> listSearch(Integer pageNum, Integer pageSize) {
+        log.debug("开始执行【查询放入elsticsearch中的文章列表】操作，页码: {}，每页记录数: {}", pageNum, pageSize);
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticleSearchVO> list = mapper.listSearch();
+
+        PageInfo<ArticleSearchVO> pageInfo = new PageInfo<>(list);
         return PageInfoToPageDataConverter.convert(pageInfo);
     }
 }
